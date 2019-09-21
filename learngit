@@ -74,3 +74,42 @@ Feature分支
 		在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
 		建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
 		从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+Rebase
+//处理九宫格拉伸
+private byte[] createCenterChunk(Bitmap bitmap) {
+        int[] xRegions = new int[]{bitmap.getWidth() / 2, bitmap.getWidth() / 2 + 1};
+        int[] yRegions = new int[]{bitmap.getWidth() / 2, bitmap.getWidth() / 2 + 1};
+        int NO_COLOR = 0x00000001;
+        int colorSize = 9;
+        int bufferSize = xRegions.length * 4 + yRegions.length * 4 + colorSize * 4 + 32;
+        ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize).order(ByteOrder.nativeOrder());
+        // 第一个byte，要不等于0
+        byteBuffer.put((byte) 1);
+        //mDivX length
+        byteBuffer.put((byte) 2);
+        //mDivY length
+        byteBuffer.put((byte) 2);
+        //mColors length
+        byteBuffer.put((byte) colorSize);
+        //skip
+        byteBuffer.putInt(0);
+        byteBuffer.putInt(0);
+        //padding 先设为0
+        byteBuffer.putInt(0);
+        byteBuffer.putInt(0);
+        byteBuffer.putInt(0);
+        byteBuffer.putInt(0);
+        //skip
+        byteBuffer.putInt(0);
+        // mDivX
+        byteBuffer.putInt(xRegions[0]);
+        byteBuffer.putInt(xRegions[1]);
+        // mDivY
+        byteBuffer.putInt(yRegions[0]);
+        byteBuffer.putInt(yRegions[1]);
+        // mColors
+        for (int i = 0; i < colorSize; i++) {
+            byteBuffer.putInt(NO_COLOR);
+        }
+        return byteBuffer.array();
+    }
